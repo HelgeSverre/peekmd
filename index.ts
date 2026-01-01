@@ -794,10 +794,8 @@ function renderMarkdown(content: string): string {
   renderer.list = (token) => {
     const body = token.items
       .map((item: { task?: boolean; checked?: boolean; tokens: unknown[] }) => {
-        const text = marked.parser(
-          [{ type: "paragraph", tokens: item.tokens, raw: "" }],
-          { renderer },
-        );
+        // Parse tokens as block content (handles nested lists properly)
+        const text = marked.parser(item.tokens as marked.Token[], { renderer });
         if (item.task) {
           const checkbox = item.checked
             ? '<input type="checkbox" class="task-list-item-checkbox" checked disabled>'
@@ -911,7 +909,7 @@ interface ServerState {
 
 const state: ServerState = { port: 0, isOpen: false };
 
-async function main(): Promise<void> {
+export async function main(): Promise<void> {
   const args = process.argv.slice(2);
 
   if (args.length === 0) {
@@ -978,7 +976,3 @@ async function main(): Promise<void> {
   state.isOpen = true;
 }
 
-main().catch((err) => {
-  console.error("Error:", err);
-  process.exit(1);
-});

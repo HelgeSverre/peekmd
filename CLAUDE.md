@@ -1,3 +1,55 @@
+# peekmd
+
+A CLI tool that opens a GitHub-style preview of markdown files in your default browser.
+
+## Commands
+
+```sh
+# Development - preview a markdown file with hot reload
+bun run dev
+
+# Build for distribution
+bun run build
+
+# Format code
+bun run format
+
+# Run directly (development)
+bun run ./index.ts <file.md>
+```
+
+## Project Structure
+
+- `index.ts` - Main module with markdown rendering, HTML template, and Bun server
+- `cli.ts` - CLI entry point (shebang script that calls `main()`)
+- `dist/` - Built output for npm publishing
+
+## Key Dependencies
+
+- `marked` - Markdown parser
+- `highlight.js` - Syntax highlighting for code blocks
+
+## How It Works
+
+1. Reads markdown file from CLI argument
+2. Renders to HTML using `marked` with GitHub-style styling
+3. Starts a local Bun server on port 3456
+4. Opens the preview in the default browser
+5. Server auto-closes when browser window closes (via `/close` endpoint)
+
+## Features
+
+- GitHub Flavored Markdown (GFM)
+- Syntax highlighting for code blocks
+- GitHub-style alerts (`[!NOTE]`, `[!TIP]`, `[!WARNING]`, etc.)
+- Task lists with checkboxes
+- Anchor links on headings
+- File tree sidebar
+
+---
+
+## Bun Guidelines
+
 Default to using Bun instead of Node.js.
 
 - Use `bun <file>` instead of `node <file>` or `ts-node <file>`
@@ -8,7 +60,7 @@ Default to using Bun instead of Node.js.
 - Use `bunx <package> <command>` instead of `npx <package> <command>`
 - Bun automatically loads .env, so don't use dotenv.
 
-## APIs
+### APIs
 
 - `Bun.serve()` supports WebSockets, HTTPS, and routes. Don't use `express`.
 - `bun:sqlite` for SQLite. Don't use `better-sqlite3`.
@@ -18,88 +70,14 @@ Default to using Bun instead of Node.js.
 - Prefer `Bun.file` over `node:fs`'s readFile/writeFile
 - Bun.$`ls` instead of execa.
 
-## Testing
+### Testing
 
 Use `bun test` to run tests.
 
-```ts#index.test.ts
+```ts
 import { test, expect } from "bun:test";
 
 test("hello world", () => {
   expect(1).toBe(1);
 });
 ```
-
-## Frontend
-
-Use HTML imports with `Bun.serve()`. Don't use `vite`. HTML imports fully support React, CSS, Tailwind.
-
-Server:
-
-```ts#index.ts
-import index from "./index.html"
-
-Bun.serve({
-  routes: {
-    "/": index,
-    "/api/users/:id": {
-      GET: (req) => {
-        return new Response(JSON.stringify({ id: req.params.id }));
-      },
-    },
-  },
-  // optional websocket support
-  websocket: {
-    open: (ws) => {
-      ws.send("Hello, world!");
-    },
-    message: (ws, message) => {
-      ws.send(message);
-    },
-    close: (ws) => {
-      // handle close
-    }
-  },
-  development: {
-    hmr: true,
-    console: true,
-  }
-})
-```
-
-HTML files can import .tsx, .jsx or .js files directly and Bun's bundler will transpile & bundle automatically. `<link>` tags can point to stylesheets and Bun's CSS bundler will bundle.
-
-```html#index.html
-<html>
-  <body>
-    <h1>Hello, world!</h1>
-    <script type="module" src="./frontend.tsx"></script>
-  </body>
-</html>
-```
-
-With the following `frontend.tsx`:
-
-```tsx#frontend.tsx
-import React from "react";
-import { createRoot } from "react-dom/client";
-
-// import .css files directly and it works
-import './index.css';
-
-const root = createRoot(document.body);
-
-export default function Frontend() {
-  return <h1>Hello, world!</h1>;
-}
-
-root.render(<Frontend />);
-```
-
-Then, run index.ts
-
-```sh
-bun --hot ./index.ts
-```
-
-For more information, read the Bun API docs in `node_modules/bun-types/docs/**.mdx`.
