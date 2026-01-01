@@ -6,6 +6,9 @@ out
 dist
 *.tgz
 
+# compiled binary
+/peekmd
+
 # code coverage
 coverage
 *.lcov
