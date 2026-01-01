@@ -1,6 +1,6 @@
 {
   "name": "peekmd",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Quick markdown file previewer that looks like your GitHub README. Requires Bun.",
   "type": "module",
   "main": "./index.ts",
