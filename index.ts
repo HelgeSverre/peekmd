@@ -155,6 +155,27 @@ const HTML_TEMPLATE = `<!DOCTYPE html>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{filename}} - {{repoName}}</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📝</text></svg>">
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    const darkMode = localStorage.getItem('dark') === 'true' ||
+      (localStorage.getItem('dark') === null && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: darkMode ? 'dark' : 'default'
+    });
+    // Re-render mermaid diagrams when theme changes
+    window.updateMermaidTheme = async (isDark) => {
+      mermaid.initialize({ theme: isDark ? 'dark' : 'default' });
+      const diagrams = document.querySelectorAll('.mermaid');
+      for (const el of diagrams) {
+        const code = el.getAttribute('data-mermaid-src') || el.textContent;
+        el.setAttribute('data-mermaid-src', code);
+        el.removeAttribute('data-processed');
+        el.innerHTML = code;
+      }
+      await mermaid.run({ nodes: diagrams });
+    };
+  </script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     *, *::before, *::after { transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, fill 0.2s ease; }
@@ -475,6 +496,13 @@ const HTML_TEMPLATE = `<!DOCTYPE html>
       margin-bottom: 16px;
       word-wrap: normal;
     }
+    .markdown-body pre.mermaid {
+      background: transparent;
+      text-align: center;
+      font-family: inherit;
+      font-size: inherit;
+      line-height: inherit;
+    }
     .markdown-body pre code {
       display: inline;
       max-width: auto;
@@ -690,6 +718,7 @@ const HTML_TEMPLATE = `<!DOCTYPE html>
     .dark .markdown-body a { color: #58a6ff; }
     .dark .markdown-body code { background: rgba(110,118,129,0.4); }
     .dark .markdown-body pre { background: #161b22; }
+    .dark .markdown-body pre.mermaid { background: transparent; }
     .dark .markdown-body blockquote { color: #8b949e; border-color: #30363d; }
     .dark .markdown-body table th, .dark .markdown-body table td { border-color: #30363d; }
     .dark .markdown-body table th { background: #161b22; }
@@ -879,7 +908,11 @@ const HTML_TEMPLATE = `<!DOCTYPE html>
 
     // Dark mode
     const toggle = document.getElementById('darkToggle');
-    const setDark = (dark) => { document.documentElement.classList.toggle('dark', dark); localStorage.setItem('dark', dark); };
+    const setDark = (dark) => {
+      document.documentElement.classList.toggle('dark', dark);
+      localStorage.setItem('dark', dark);
+      if (window.updateMermaidTheme) window.updateMermaidTheme(dark);
+    };
     const stored = localStorage.getItem('dark');
     setDark(stored !== null ? stored === 'true' : window.matchMedia('(prefers-color-scheme: dark)').matches);
     toggle.addEventListener('click', () => setDark(!document.documentElement.classList.contains('dark')));
@@ -951,8 +984,11 @@ function renderMarkdown(content: string): string {
 
   const renderer = new marked.Renderer();
 
-  // Code blocks with syntax highlighting
+  // Code blocks with syntax highlighting (mermaid diagrams handled specially)
   renderer.code = ({ text, lang }) => {
+    if (lang === "mermaid") {
+      return `<pre class="mermaid">${text}</pre>`;
+    }
     if (lang) {
       return `<pre><code class="hljs language-${lang}">${highlightCode(text, lang)}</code></pre>`;
     }
