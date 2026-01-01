@@ -1,20 +1,20 @@
 {
   "name": "peekmd",
-  "version": "1.0.0",
-  "description": "Quick markdown file previewer that looks like your GitHub README.",
+  "version": "1.0.1",
+  "description": "Quick markdown file previewer that looks like your GitHub README. Requires Bun.",
   "type": "module",
-  "main": "./dist/index.js",
+  "main": "./index.ts",
   "bin": {
-    "peekmd": "./dist/cli.js"
+    "peekmd": "./cli.ts"
   },
   "files": [
-    "dist"
+    "cli.ts",
+    "index.ts"
   ],
   "scripts": {
-    "build": "bun build ./index.ts --outdir dist --target node --format esm && bun build ./cli.ts --outdir dist --target node --format esm",
-    "dev": "bun run ./index.ts README.md",
+    "dev": "bun run ./cli.ts README.md",
+    "compile": "bun build ./cli.ts --compile --outfile peekmd",
     "format": "bunx prettier --write .",
-    "prepublishOnly": "bun run build",
     "sort": "bunx sort-package-json"
   },
   "keywords": [
@@ -36,9 +36,6 @@
     "url": "https://github.com/HelgeSverre/peekmd/issues"
   },
   "homepage": "https://github.com/HelgeSverre/peekmd#readme",
-  "engines": {
-    "node": ">=18"
-  },
   "dependencies": {
     "highlight.js": "^11.11.1",
     "marked": "^17.0.1"
