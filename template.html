@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>README.md</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📝</text></svg>"
+    />
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica,
+          Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+        font-size: 16px;
+        line-height: 1.5;
+        word-wrap: break-word;
+        color: #1f2328;
+        background-color: #ffffff;
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 0 32px;
+      }
+      header {
+        background: #f6f8fa;
+        border-bottom: 1px solid #d0d7de;
+        padding: 24px 0;
+        margin-bottom: 32px;
+      }
+      .header-content {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+      .octicon {
+        display: inline-block;
+        vertical-align: text-bottom;
+        fill: #1f2328;
+      }
+      .repo-icon {
+        width: 32px;
+        height: 32px;
+      }
+      .repo-name {
+        font-size: 20px;
+        font-weight: 600;
+        color: #0969da;
+        text-decoration: none;
+      }
+      .repo-name:hover {
+        text-decoration: underline;
+      }
+      .breadcrumb {
+        font-size: 16px;
+        color: #656d76;
+      }
+      .breadcrumb a {
+        color: #0969da;
+        text-decoration: none;
+      }
+      .breadcrumb a:hover {
+        text-decoration: underline;
+      }
+      main {
+        padding-bottom: 64px;
+      }
+      .markdown-body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica,
+          Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+        font-size: 16px;
+        line-height: 1.5;
+        word-wrap: break-word;
+      }
+      .markdown-body h1 {
+        padding-bottom: 0.3em;
+        font-size: 2em;
+        border-bottom: 1px solid #d0d7de;
+        margin-bottom: 16px;
+        margin-top: 24px;
+        font-weight: 600;
+        line-height: 1.25;
+      }
+      .markdown-body h1:first-child {
+        margin-top: 0;
+      }
+      .markdown-body h2 {
+        padding-bottom: 0.3em;
+        font-size: 1.5em;
+        border-bottom: 1px solid #d0d7de;
+        margin-bottom: 16px;
+        margin-top: 24px;
+        font-weight: 600;
+        line-height: 1.25;
+      }
+      .markdown-body h3 {
+        font-size: 1.25em;
+        margin-bottom: 16px;
+        margin-top: 24px;
+        font-weight: 600;
+        line-height: 1.25;
+      }
+      .markdown-body h4 {
+        font-size: 1em;
+        margin-bottom: 16px;
+        margin-top: 24px;
+        font-weight: 600;
+        line-height: 1.25;
+      }
+      .markdown-body p {
+        margin-top: 0;
+        margin-bottom: 16px;
+      }
+      .markdown-body a {
+        color: #0969da;
+        text-decoration: none;
+      }
+      .markdown-body a:hover {
+        text-decoration: underline;
+      }
+      .markdown-body a:not([href]) {
+        color: inherit;
+        text-decoration: none;
+      }
+      .markdown-body strong {
+        font-weight: 600;
+      }
+      .markdown-body code {
+        padding: 0.2em 0.4em;
+        margin: 0;
+        font-size: 85%;
+        background-color: rgba(175, 184, 193, 0.2);
+        border-radius: 6px;
+        font-family:
+          ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+          "Liberation Mono", monospace;
+      }
+      .markdown-body pre {
+        padding: 16px;
+        overflow: auto;
+        font-size: 85%;
+        line-height: 1.45;
+        background-color: #f6f8fa;
+        border-radius: 6px;
+        margin-bottom: 16px;
+      }
+      .markdown-body pre code {
+        padding: 0;
+        background-color: transparent;
+        font-size: 100%;
+      }
+      .markdown-body ul,
+      .markdown-body ol {
+        padding-left: 2em;
+        margin-bottom: 16px;
+      }
+      .markdown-body li {
+        margin-bottom: 0.25em;
+      }
+      .markdown-body li + li {
+        margin-top: 0.25em;
+      }
+      .markdown-body blockquote {
+        padding: 0 1em;
+        color: #656d76;
+        border-left: 0.25em solid #d0d7de;
+        margin-bottom: 16px;
+      }
+      .markdown-body img {
+        max-width: 100%;
+        height: auto;
+        background-color: #ffffff;
+      }
+      .markdown-body table {
+        display: block;
+        width: 100%;
+        overflow: auto;
+        margin-bottom: 16px;
+        border-spacing: 0;
+        border-collapse: collapse;
+      }
+      .markdown-body table th,
+      .markdown-body table td {
+        padding: 6px 13px;
+        border: 1px solid #d0d7de;
+      }
+      .markdown-body table th {
+        font-weight: 600;
+        background-color: #f6f8fa;
+      }
+      .markdown-body table tr {
+        background-color: #ffffff;
+        border-top: 1px solid #d0d7de;
+      }
+      .markdown-body table tr:nth-child(2n) {
+        background-color: #f6f8fa;
+      }
+      .markdown-body hr {
+        height: 0.25em;
+        padding: 0;
+        margin: 24px 0;
+        background-color: #d0d7de;
+        border: 0;
+      }
+      .markdown-body .highlight {
+        background-color: #ffffff;
+      }
+      .markdown-body .highlight pre {
+        background-color: #f6f8fa;
+      }
+      .markdown-body .pl-c {
+        color: #6e7781;
+      }
+      .markdown-body .pl-c1,
+      .markdown-body .pl-s .pl-v {
+        color: #0550ae;
+      }
+      .markdown-body .pl-e,
+      .markdown-body .pl-en {
+        color: #6f42c1;
+      }
+      .markdown-body .pl-smi,
+      .markdown-body .pl-s .pl-s1 {
+        color: #24292f;
+      }
+      .markdown-body .pl-ent {
+        color: #cf222e;
+      }
+      .markdown-body .pl-k {
+        color: #cf222e;
+      }
+      .markdown-body .pl-pds,
+      .markdown-body .pl-s,
+      .markdown-body .pl-s .pl-pse .pl-s1,
+      .markdown-body .pl-sr,
+      .markdown-body .pl-sr .pl-cce,
+      .markdown-body .pl-sr .pl-sre,
+      .markdown-body .pl-sr .pl-sra {
+        color: #0a3069;
+      }
+      .markdown-body .pl-imi {
+        background-color: #ffdf5d;
+      }
+      .markdown-body .pl-mdr {
+        color: #825edf;
+        font-weight: normal;
+      }
+      .markdown-body .pl-mi1 {
+        color: #116329;
+        background-color: #dafbe1;
+      }
+      .markdown-body .pl-mb {
+        font-weight: bold;
+      }
+      .markdown-body .pl-md {
+        color: #cf222e;
+        background-color: #ffebe9;
+      }
+      .markdown-body .pl-mi2 {
+        color: #eaeef2;
+        background-color: #0550ae;
+      }
+      .markdown-body .pl-mc {
+        color: #bf8700;
+        background-color: #fff8c5;
+      }
+      .markdown-body .pl-mq {
+        color: #656d76;
+      }
+      .markdown-body .pl-mm {
+        color: #cf222e;
+      }
+      .markdown-body .pl-mh {
+        color: #cf222e;
+        font-weight: normal;
+      }
+      .markdown-body .pl-mh .pl-en {
+        color: #cf222e;
+      }
+      .markdown-body .pl-ms {
+        color: #cf222e;
+      }
+      .markdown-body .pl-mh::before,
+      .markdown-body .pl-mh::after,
+      .markdown-body .pl-mq::before,
+      .markdown-body .pl-mq::after {
+        content: "\200B";
+      }
+      .markdown-body .pl-ba {
+        color: #0550ae;
+      }
+      .markdown-body .pl-bu {
+        color: #0550ae;
+      }
+      .markdown-body .pl-sg {
+        color: #8c959f;
+      }
+      .markdown-body .pl-corl {
+        color: #0a3069;
+        text-decoration: underline;
+      }
+      .markdown-body .pl-ii {
+        color: #f6f8fa;
+        background-color: #cf222e;
+      }
+      .markdown-body .pl-cf {
+        color: #24292f;
+      }
+      .markdown-body .pl-co {
+        color: #656d76;
+      }
+      .markdown-body .pl-ca {
+        color: #0550ae;
+      }
+      .markdown-body .pl-sr .pl-cce {
+        color: #116329;
+      }
+      .markdown-body .pl-sr .pl-sra {
+        color: #116329;
+      }
+      .markdown-body .pl-sr .pl-sre {
+        color: #116329;
+      }
+      .markdown-body .pl-sr .pl-cce {
+        color: #116329;
+      }
+      .markdown-body .pl-vo {
+        color: #0550ae;
+      }
+      .markdown-body .pl-c1 code {
+        color: #0550ae;
+      }
+      .markdown-body code br {
+        display: none;
+      }
+      .markdown-body .task-list-item {
+        list-style-type: none;
+      }
+      .markdown-body .task-list-item input {
+        margin: 0 0.2em 0.25em -1.6em;
+        vertical-align: middle;
+      }
+      .markdown-body details {
+        margin-bottom: 16px;
+      }
+      .markdown-body summary {
+        cursor: pointer;
+      }
+      .toast {
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        background: #1f2328;
+        color: #ffffff;
+        padding: 12px 16px;
+        border-radius: 6px;
+        font-size: 14px;
+        opacity: 0;
+        transition: opacity 0.3s;
+        z-index: 1000;
+      }
+      .toast.show {
+        opacity: 1;
+      }
+      @media (max-width: 768px) {
+        .container {
+          padding: 0 16px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <div class="header-content">
+          <svg
+            class="octicon repo-icon"
+            viewBox="0 0 16 16"
+            fill="currentColor"
+          >
+            <path
+              d="M2 2.5A2.5 2.5 0 0 1 4.5 0h8.75a.75.75 0 0 1 .75.75v12.5a.75.75 0 0 1-.75.75h-2.5a.75.75 0 1 1 0-1.5h1.75v-2h-8a1 1 0 0 0-.714 1.7.75.75 0 0 1-1.072 1.05A2.495 2.495 0 0 1 2 11.5Zm10.5-1V9h-8c-.356 0-.694.074-1 .208V2.5a1 1 0 0 1 1-1h8ZM5 12.25v3.25a.25.25 0 0 0 .4.2l1.45-1.087a.25.25 0 0 1 .3 0L8.6 15.7a.25.25 0 0 0 .4-.2v-3.25a.25.25 0 0 0-.25-.25h-3.5a.25.25 0 0 0-.25.25Z"
+            ></path>
+          </svg>
+          <span class="breadcrumb">
+            <a href="#">peekmd</a>
+            / <strong>{{filename}}</strong>
+          </span>
+        </div>
+      </div>
+    </header>
+    <main class="container">
+      <div class="markdown-body">{{content}}</div>
+    </main>
+    <div class="toast" id="toast"></div>
+    <script>
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          window.close();
+        }
+      });
+      window.addEventListener("beforeunload", () => {
+        fetch("/close");
+      });
+    </script>
+  </body>
+</html>

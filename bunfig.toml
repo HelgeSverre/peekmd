@@ -1,0 +1,9 @@
+telemetry = false
+
+
+[build]
+target = "bun"
+standalone = true
+
+[package]
+entry = "index.ts"
