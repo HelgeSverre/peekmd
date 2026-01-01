@@ -5,24 +5,30 @@ A CLI tool that opens a GitHub-style preview of markdown files in your default b
 ## Commands
 
 ```sh
-# Development - preview a markdown file with hot reload
+# Development - preview a markdown file
 bun run dev
 
-# Build for distribution
-bun run build
+# Build standalone binary (no Bun runtime required)
+bun run compile
 
 # Format code
 bun run format
 
-# Run directly (development)
-bun run ./index.ts <file.md>
+# Run directly
+bun run ./cli.ts <file.md>
 ```
 
 ## Project Structure
 
 - `index.ts` - Main module with markdown rendering, HTML template, and Bun server
-- `cli.ts` - CLI entry point (shebang script that calls `main()`)
-- `dist/` - Built output for npm publishing
+- `cli.ts` - CLI entry point (shebang `#!/usr/bin/env bun`)
+
+## Distribution
+
+This package ships TypeScript source directly (no build step). Bun runs TypeScript natively.
+
+- `bunx peekmd` - runs via Bun
+- `bun run compile` - creates standalone binary (~60MB) that works without Bun installed
 
 ## Key Dependencies
 
