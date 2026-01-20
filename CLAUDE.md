@@ -11,17 +11,63 @@ bun run dev
 # Build standalone binary (no Bun runtime required)
 bun run compile
 
+# Run tests
+bun test
+
+# Run tests with watch
+bun test --watch
+
+# Run tests with coverage
+bun test --coverage
+
+# Manual testing with kitchen-sink file (all features)
+bun run test:manual
+
 # Format code
 bun run format
 
 # Run directly
-bun run ./cli.ts <file.md>
+bun run ./src/cli.ts <file.md>
 ```
 
 ## Project Structure
 
-- `index.ts` - Main module with markdown rendering, HTML template, and Bun server
-- `cli.ts` - CLI entry point (shebang `#!/usr/bin/env bun`)
+```
+src/
+  cli.ts                 # CLI entry point
+  index.ts               # Public API exports
+
+  markdown/
+    parser.ts            # markdown-it configuration
+    plugins/
+      alerts.ts          # [!NOTE], [!TIP], etc.
+      anchors.ts         # Heading anchor links
+      highlight.ts       # Syntax highlighting
+      mermaid.ts         # Diagram support
+      tasks.ts           # Task list checkboxes
+
+  server/
+    index.ts             # Bun.serve() setup
+    routes.ts            # Route handlers
+    assets.ts            # Asset proxy middleware
+
+  template/
+    html.ts              # HTML structure
+    styles.ts            # Embedded CSS
+    styles.css           # Source CSS (edit this)
+    scripts.ts           # Client-side JS
+
+  utils/
+    file-tree.ts         # Directory tree generation
+    browser.ts           # Cross-platform browser opening
+    paths.ts             # Path resolution, content-types
+
+tests/
+  markdown/*.test.ts     # Markdown rendering tests
+  server/*.test.ts       # Server tests
+  utils/*.test.ts        # Utility tests
+  fixtures/              # Test markdown files
+```
 
 ## Distribution
 
@@ -32,16 +78,17 @@ This package ships TypeScript source directly (no build step). Bun runs TypeScri
 
 ## Key Dependencies
 
-- `marked` - Markdown parser
+- `markdown-it` - Markdown parser (CommonMark compliant)
 - `highlight.js` - Syntax highlighting for code blocks
 
 ## How It Works
 
 1. Reads markdown file from CLI argument
-2. Renders to HTML using `marked` with GitHub-style styling
+2. Renders to HTML using `markdown-it` with GitHub-style styling
 3. Starts a local Bun server on port 3456
 4. Opens the preview in the default browser
 5. Server auto-closes when browser window closes (via `/close` endpoint)
+6. Asset proxy rewrites relative image paths for local images
 
 ## Features
 
@@ -51,6 +98,9 @@ This package ships TypeScript source directly (no build step). Bun runs TypeScri
 - Task lists with checkboxes
 - Anchor links on headings
 - File tree sidebar
+- Mermaid diagram rendering
+- Dark mode support
+- Local image proxying
 
 ---
 
