@@ -1,0 +1,16 @@
+# Alerts Test
+
+> [!NOTE]
+> This is a note alert.
+
+> [!TIP]
+> This is a tip alert.
+
+> [!IMPORTANT]
+> This is an important alert.
+
+> [!WARNING]
+> This is a warning alert.
+
+> [!CAUTION]
+> This is a caution alert.

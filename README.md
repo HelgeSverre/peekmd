@@ -12,9 +12,11 @@ A CLI tool to preview markdown files with GitHub-style rendering in your browser
 - GitHub Flavored Markdown (GFM) rendering
 - Syntax highlighting for code blocks
 - GitHub-style alerts (`[!NOTE]`, `[!TIP]`, `[!WARNING]`, `[!IMPORTANT]`, `[!CAUTION]`)
+- Mermaid diagram rendering
 - Task lists with checkboxes
 - Anchor links on headings
 - File tree sidebar
+- Dark mode support
 - Opens in your default browser automatically
 - Auto-closes when you close the browser tab
 - Cross-platform: macOS, Linux, Windows
@@ -160,6 +162,24 @@ bun run format
 # Build standalone binary
 bun run compile
 ```
+
+## Testing
+
+```bash
+# Run all tests
+bun test
+
+# Run visual regression tests
+bun test:visual
+
+# Update visual baselines (after intentional UI changes)
+bun test:visual:update
+
+# Run visual tests without GitHub gist comparison (faster)
+bun test:visual:local
+```
+
+Visual regression tests capture screenshots across multiple viewports (desktop, tablet, mobile) and color modes (light, dark) to ensure consistent rendering.
 
 ## Why Bun?
 
