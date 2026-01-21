@@ -1,8 +1,8 @@
 #!/usr/bin/env bun
 import { existsSync } from "fs";
-import { extname, dirname, resolve, sep } from "path";
+import { extname, dirname, resolve } from "path";
 import { createServer, type ServerState } from "./server/index.ts";
-import { showToast, openBrowser } from "./utils/browser.ts";
+import { openBrowser } from "./utils/browser.ts";
 import { getDirName, getRelativePath, getFilename } from "./utils/paths.ts";
 
 export async function main(): Promise<void> {
@@ -49,8 +49,8 @@ export async function main(): Promise<void> {
   );
 
   const url = `http://localhost:${port}`;
-  showToast(`Serving ${filename} at ${url}`);
-  showToast("Close the browser tab to stop the server.");
+  console.log(`Web UI:   ${url}`);
+  console.log(`Markdown: ${filePath}`);
 
   await openBrowser(url);
   state.isOpen = true;

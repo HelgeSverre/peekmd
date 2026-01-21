@@ -1,7 +1,6 @@
 import type { Server } from "bun";
 import getPort from "get-port";
 import { handleRequest, type RouteContext } from "./routes.ts";
-import { showToast } from "../utils/browser.ts";
 
 export interface ServerOptions {
   port?: number;
@@ -30,7 +29,7 @@ export async function createServer(
   const port = await getPort({ port: preferredPort });
 
   if (port !== preferredPort) {
-    showToast(`Port ${preferredPort} in use, using ${port} instead.`);
+    console.log(`Port ${preferredPort} in use, using ${port} instead.`);
   }
 
   const context: RouteContext = {
@@ -45,9 +44,11 @@ export async function createServer(
       setTimeout(() => {
         if (!state.isOpen && state.server) {
           state.server.stop();
-          showToast("Server closed.");
         }
       }, 1000);
+    },
+    onPing: () => {
+      state.isOpen = true;
     },
   };
 

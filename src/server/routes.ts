@@ -21,6 +21,7 @@ export interface RouteContext {
   markdownDir: string;
   server: Server | null;
   onClose: () => void;
+  onPing: () => void;
 }
 
 export async function handleRequest(
@@ -40,6 +41,12 @@ export async function handleRequest(
   // Close endpoint
   if (pathname === "/close") {
     context.onClose();
+    return new Response("ok");
+  }
+
+  // Ping endpoint (keep alive on refresh)
+  if (pathname === "/ping") {
+    context.onPing();
     return new Response("ok");
   }
 
