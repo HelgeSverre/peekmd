@@ -1,5 +1,8 @@
 export function getScripts(): string {
   return `
+    // Keep server alive on refresh
+    fetch('/ping');
+
     window.addEventListener('beforeunload', () => { fetch('/close'); });
 
     // Dark mode
@@ -12,6 +15,18 @@ export function getScripts(): string {
     const stored = localStorage.getItem('dark');
     setDark(stored !== null ? stored === 'true' : window.matchMedia('(prefers-color-scheme: dark)').matches);
     toggle.addEventListener('click', () => setDark(!document.documentElement.classList.contains('dark')));
+
+    // File tree collapse state
+    const fileTree = document.querySelector('details.Box');
+    if (fileTree) {
+      const storedTree = localStorage.getItem('fileTreeOpen');
+      if (storedTree !== null) {
+        fileTree.open = storedTree === 'true';
+      }
+      fileTree.addEventListener('toggle', () => {
+        localStorage.setItem('fileTreeOpen', fileTree.open);
+      });
+    }
   `;
 }
 
