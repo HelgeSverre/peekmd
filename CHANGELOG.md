@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.1.1] - 2026-01-21
+
+### Added
+
+- Copy-to-clipboard button to copy raw markdown source with toast notification
+
 ## [2.1.0] - 2026-01-21
 
 ### Added

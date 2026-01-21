@@ -1,6 +1,6 @@
 {
   "name": "peekmd",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Quick markdown file previewer that looks like your GitHub README. Requires Bun.",
   "keywords": [
     "markdown",
