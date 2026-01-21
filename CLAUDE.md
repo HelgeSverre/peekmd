@@ -44,6 +44,7 @@ src/
       anchors.ts         # Heading anchor links
       highlight.ts       # Syntax highlighting
       mermaid.ts         # Diagram support
+      strikethrough.ts   # ~~strikethrough~~ text
       tasks.ts           # Task list checkboxes
 
   server/
@@ -79,7 +80,9 @@ This package ships TypeScript source directly (no build step). Bun runs TypeScri
 ## Key Dependencies
 
 - `markdown-it` - Markdown parser (CommonMark compliant)
+- `markdown-it-footnote` - Footnote support
 - `highlight.js` - Syntax highlighting for code blocks
+- `get-port` - Auto port selection
 
 ## How It Works
 
@@ -96,8 +99,10 @@ This package ships TypeScript source directly (no build step). Bun runs TypeScri
 - Syntax highlighting for code blocks
 - GitHub-style alerts (`[!NOTE]`, `[!TIP]`, `[!WARNING]`, etc.)
 - Task lists with checkboxes
+- Strikethrough text (`~~deleted~~`)
+- Footnotes
 - Anchor links on headings
-- File tree sidebar
+- File tree sidebar with collapse state persistence
 - Mermaid diagram rendering
 - Dark mode support
 - Local image proxying

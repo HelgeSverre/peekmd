@@ -14,8 +14,10 @@ A CLI tool to preview markdown files with GitHub-style rendering in your browser
 - GitHub-style alerts (`[!NOTE]`, `[!TIP]`, `[!WARNING]`, `[!IMPORTANT]`, `[!CAUTION]`)
 - Mermaid diagram rendering
 - Task lists with checkboxes
+- Strikethrough text
+- Footnotes
 - Anchor links on headings
-- File tree sidebar
+- File tree sidebar with collapse state persistence
 - Dark mode support
 - Opens in your default browser automatically
 - Auto-closes when you close the browser tab
@@ -116,6 +118,9 @@ peekmd docs/guide.md
 
 # Preview with full path
 peekmd /path/to/file.md
+
+# Show version
+peekmd --version
 ```
 
 ## Controls

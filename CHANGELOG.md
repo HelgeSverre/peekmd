@@ -1,15 +1,24 @@
 # Changelog
 
-## [2.0.1] - Unreleased
+## [2.1.0] - 2026-01-21
 
 ### Added
 
+- `--version` / `-v` flag to display version
 - Auto port selection when default port 3456 is in use (uses `get-port`)
+- File tree collapse state persistence (remembers open/closed folders)
+- CSS tooltips on file tree items
 
 ### Fixed
 
+- Add ping endpoint to keep server alive on page refresh
+- Simplify absolute path handling in asset resolver
 - Remove misleading "Press ESC to close" message (ESC doesn't work in browser tabs)
 - Remove dead ESC keydown handler code
+
+### Performance
+
+- Instant theme switching (removed universal transition delay)
 
 ## [2.0.0] - 2026-01-20
 

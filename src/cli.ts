@@ -4,9 +4,15 @@ import { extname, dirname, resolve } from "path";
 import { createServer, type ServerState } from "./server/index.ts";
 import { openBrowser } from "./utils/browser.ts";
 import { getDirName, getRelativePath, getFilename } from "./utils/paths.ts";
+import pkg from "../package.json";
 
 export async function main(): Promise<void> {
   const args = process.argv.slice(2);
+
+  if (args.includes("--version") || args.includes("-v")) {
+    console.log(pkg.version);
+    process.exit(0);
+  }
 
   if (args.length === 0) {
     console.log("Usage: peekmd <file.md>");
