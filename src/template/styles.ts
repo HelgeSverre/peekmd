@@ -123,7 +123,6 @@ export function getStyles(): string {
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
-*, *::before, *::after { transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, fill 0.2s ease; }
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
   font-size: 14px;
@@ -159,7 +158,7 @@ body {
 .AppHeader-nav { display: flex; align-items: center; gap: 16px; margin-left: auto; }
 .AppHeader-nav a { color: #fff; text-decoration: none; font-size: 14px; font-weight: 600; line-height: 1; }
 .AppHeader-nav a:hover { color: hsla(0,0%,100%,.7); }
-.dark-toggle { background: none; border: 1px solid hsla(0,0%,100%,.3); border-radius: 6px; width: 28px; height: 28px; padding: 0; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.dark-toggle { background: none; border: none; border-radius: 6px; width: 28px; height: 28px; padding: 0; cursor: pointer; display: flex; align-items: center; justify-content: center; }
 .dark-toggle:hover { background: hsla(0,0%,100%,.1); }
 .dark-toggle svg { width: 16px; height: 16px; stroke: #fff; flex-shrink: 0; }
 .dark-toggle .icon-moon { display: none; }
@@ -337,6 +336,27 @@ body {
 }
 .Box-header .btn-sm:hover { background: var(--color-btn-hover-bg); border-color: var(--color-btn-border); }
 .Box-header .btn-sm svg { width: 16px; height: 16px; fill: currentColor; }
+.Box-header .btn-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  color: var(--color-fg-muted);
+  cursor: pointer;
+}
+.Box-header .btn-icon:hover {
+  background: var(--color-btn-hover-bg);
+}
+.Box-header .btn-icon svg {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+}
 
 /* Collapsible Box (details/summary) */
 details.Box { }
@@ -638,6 +658,34 @@ details.Box:not([open]) > summary.Box-header { border-bottom: none; }
 .hljs-strong { color: var(--color-fg-default); font-weight: 700; }
 .hljs-addition { color: var(--color-syntax-addition-fg); background-color: var(--color-syntax-addition-bg); }
 .hljs-deletion { color: var(--color-syntax-deletion-fg); background-color: var(--color-syntax-deletion-bg); }
+
+/* Tooltips */
+[data-tooltip] {
+  position: relative;
+}
+[data-tooltip]::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 4px 8px;
+  background: #1f2328;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  border-radius: 6px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.15s, visibility 0.15s;
+  pointer-events: none;
+  z-index: 1000;
+}
+[data-tooltip]:hover::after {
+  opacity: 1;
+  visibility: visible;
+}
 
 /* Toast notification */
 .toast {
