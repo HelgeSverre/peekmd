@@ -33,22 +33,35 @@ export interface CompareOptions {
 export async function compareImages(
   actualBuffer: Buffer,
   expectedBuffer: Buffer,
-  options: CompareOptions = {}
+  options: CompareOptions = {},
 ): Promise<CompareResult> {
-  const { threshold = 0.1, maxDiffPercentage = 0.5, diffOutputPath, actualOutputPath } = options;
+  const {
+    threshold = 0.1,
+    maxDiffPercentage = 0.5,
+    diffOutputPath,
+    actualOutputPath,
+  } = options;
 
   const actualPng = PNG.sync.read(actualBuffer);
   const expectedPng = PNG.sync.read(expectedBuffer);
 
   // Track dimensions
-  const actualDimensions: ImageDimensions = { width: actualPng.width, height: actualPng.height };
-  const expectedDimensions: ImageDimensions = { width: expectedPng.width, height: expectedPng.height };
-  const sizeMismatch = actualPng.width !== expectedPng.width || actualPng.height !== expectedPng.height;
+  const actualDimensions: ImageDimensions = {
+    width: actualPng.width,
+    height: actualPng.height,
+  };
+  const expectedDimensions: ImageDimensions = {
+    width: expectedPng.width,
+    height: expectedPng.height,
+  };
+  const sizeMismatch =
+    actualPng.width !== expectedPng.width ||
+    actualPng.height !== expectedPng.height;
 
   // Log dimension mismatch
   if (sizeMismatch) {
     console.warn(
-      `Dimension mismatch: actual ${actualPng.width}x${actualPng.height}, expected ${expectedPng.width}x${expectedPng.height}`
+      `Dimension mismatch: actual ${actualPng.width}x${actualPng.height}, expected ${expectedPng.width}x${expectedPng.height}`,
     );
   }
 
@@ -68,7 +81,7 @@ export async function compareImages(
     diff.data,
     width,
     height,
-    { threshold }
+    { threshold },
   );
 
   const totalPixels = width * height;
@@ -106,7 +119,11 @@ export async function compareImages(
   };
 }
 
-function normalizeImage(png: PNG, targetWidth: number, targetHeight: number): PNG {
+function normalizeImage(
+  png: PNG,
+  targetWidth: number,
+  targetHeight: number,
+): PNG {
   if (png.width === targetWidth && png.height === targetHeight) {
     return png;
   }
@@ -149,7 +166,10 @@ async function saveDiffImage(png: PNG, outputPath: string): Promise<void> {
   await Bun.write(outputPath, buffer);
 }
 
-async function saveActualImage(buffer: Buffer, outputPath: string): Promise<void> {
+async function saveActualImage(
+  buffer: Buffer,
+  outputPath: string,
+): Promise<void> {
   const dir = dirname(outputPath);
   if (!existsSync(dir)) {
     mkdirSync(dir, { recursive: true });
@@ -158,7 +178,10 @@ async function saveActualImage(buffer: Buffer, outputPath: string): Promise<void
   await Bun.write(outputPath, buffer);
 }
 
-export async function saveBaseline(buffer: Buffer, baselinePath: string): Promise<void> {
+export async function saveBaseline(
+  buffer: Buffer,
+  baselinePath: string,
+): Promise<void> {
   const dir = dirname(baselinePath);
   if (!existsSync(dir)) {
     mkdirSync(dir, { recursive: true });
@@ -167,7 +190,9 @@ export async function saveBaseline(buffer: Buffer, baselinePath: string): Promis
   await Bun.write(baselinePath, buffer);
 }
 
-export async function loadBaseline(baselinePath: string): Promise<Buffer | null> {
+export async function loadBaseline(
+  baselinePath: string,
+): Promise<Buffer | null> {
   if (!existsSync(baselinePath)) {
     return null;
   }

@@ -6,17 +6,14 @@ import {
   captureGistScreenshot,
   closeBrowser,
 } from "./utils/screenshot.ts";
-import {
-  compareImages,
-  saveBaseline,
-  loadBaseline,
-} from "./utils/compare.ts";
+import { compareImages, saveBaseline, loadBaseline } from "./utils/compare.ts";
 
 const KITCHEN_SINK_PATH = resolve(__dirname, "../fixtures/kitchen-sink.md");
 const BASELINES_DIR = resolve(__dirname, "baselines");
 const DIFFS_DIR = resolve(__dirname, "diffs");
 
-const GIST_URL = "https://gist.github.com/HelgeSverre/c2942523db19a5c399861a24c320e70b";
+const GIST_URL =
+  "https://gist.github.com/HelgeSverre/c2942523db19a5c399861a24c320e70b";
 
 const UPDATE_BASELINES = process.env.UPDATE_BASELINES === "true";
 const SKIP_GIST_COMPARISON = process.env.SKIP_GIST_COMPARISON === "true";
@@ -51,7 +48,7 @@ afterAll(async () => {
 async function withRetry<T>(
   fn: () => Promise<T>,
   retries: number = 2,
-  delayMs: number = 1000
+  delayMs: number = 1000,
 ): Promise<T> {
   let lastError: Error | undefined;
 
@@ -61,7 +58,9 @@ async function withRetry<T>(
     } catch (error) {
       lastError = error as Error;
       if (attempt < retries) {
-        console.log(`Attempt ${attempt + 1} failed, retrying in ${delayMs}ms...`);
+        console.log(
+          `Attempt ${attempt + 1} failed, retrying in ${delayMs}ms...`,
+        );
         await new Promise((resolve) => setTimeout(resolve, delayMs));
       }
     }
@@ -75,9 +74,14 @@ async function withRetry<T>(
  */
 async function runBaselineTest(
   mode: ColorMode,
-  viewport: { name: ViewportName; width: number; height: number }
+  viewport: { name: ViewportName; width: number; height: number },
 ): Promise<void> {
-  const baselinePath = resolve(BASELINES_DIR, mode, viewport.name, "peekmd-kitchen-sink.png");
+  const baselinePath = resolve(
+    BASELINES_DIR,
+    mode,
+    viewport.name,
+    "peekmd-kitchen-sink.png",
+  );
   const diffPath = resolve(DIFFS_DIR, `${mode}-${viewport.name}-diff.png`);
   const actualPath = resolve(DIFFS_DIR, `${mode}-${viewport.name}-actual.png`);
   const darkMode = mode === "dark";
@@ -110,7 +114,9 @@ async function runBaselineTest(
   });
 
   if (!result.match) {
-    console.log(`${mode} mode (${viewport.name}) diff: ${result.diffPercentage.toFixed(2)}%`);
+    console.log(
+      `${mode} mode (${viewport.name}) diff: ${result.diffPercentage.toFixed(2)}%`,
+    );
     console.log(`Diff image saved to: ${result.diffImagePath}`);
     if (result.actualImagePath) {
       console.log(`Actual image saved to: ${result.actualImagePath}`);
@@ -118,7 +124,7 @@ async function runBaselineTest(
     if (result.dimensions.sizeMismatch) {
       console.log(
         `Size mismatch: actual ${result.dimensions.actual.width}x${result.dimensions.actual.height}, ` +
-          `expected ${result.dimensions.expected.width}x${result.dimensions.expected.height}`
+          `expected ${result.dimensions.expected.width}x${result.dimensions.expected.height}`,
       );
     }
   }
@@ -150,7 +156,7 @@ async function runGistTest(mode: ColorMode): Promise<void> {
   });
 
   console.log(
-    `Gist comparison (${mode}): ${result.diffPercentage.toFixed(2)}% difference`
+    `Gist comparison (${mode}): ${result.diffPercentage.toFixed(2)}% difference`,
   );
 
   if (!result.match) {
@@ -169,13 +175,9 @@ describe("Visual Regression Tests", () => {
     // Generate tests for each mode and viewport combination
     for (const mode of ["light", "dark"] as const) {
       for (const viewport of VIEWPORTS) {
-        test(
-          `${mode} mode (${viewport.name}) matches baseline`,
-          async () => {
-            await runBaselineTest(mode, viewport);
-          },
-          30000
-        );
+        test(`${mode} mode (${viewport.name}) matches baseline`, async () => {
+          await runBaselineTest(mode, viewport);
+        }, 30000);
       }
     }
   });
@@ -187,7 +189,7 @@ describe("Visual Regression Tests", () => {
         async () => {
           await withRetry(() => runGistTest(mode), 2, 2000);
         },
-        60000
+        60000,
       );
     }
   });

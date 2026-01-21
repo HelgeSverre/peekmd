@@ -1,4 +1,9 @@
-import { chromium, type Browser, type Page, type BrowserContext } from "playwright";
+import {
+  chromium,
+  type Browser,
+  type Page,
+  type BrowserContext,
+} from "playwright";
 
 export interface ScreenshotOptions {
   url: string;
@@ -24,7 +29,9 @@ export async function closeBrowser(): Promise<void> {
   }
 }
 
-export async function captureScreenshot(options: ScreenshotOptions): Promise<Buffer> {
+export async function captureScreenshot(
+  options: ScreenshotOptions,
+): Promise<Buffer> {
   const {
     url,
     selector = ".markdown-body",
@@ -46,7 +53,9 @@ export async function captureScreenshot(options: ScreenshotOptions): Promise<Buf
 
     // If dark mode, click the theme toggle button
     if (darkMode) {
-      const themeToggle = page.locator('[data-theme-toggle], .theme-toggle, #theme-toggle');
+      const themeToggle = page.locator(
+        "[data-theme-toggle], .theme-toggle, #theme-toggle",
+      );
       if (await themeToggle.isVisible({ timeout: 1000 }).catch(() => false)) {
         await themeToggle.click();
         await page.waitForTimeout(300); // Wait for transition
@@ -76,10 +85,15 @@ export async function captureScreenshot(options: ScreenshotOptions): Promise<Buf
   }
 }
 
-async function waitForMermaidDiagrams(page: Page, timeout: number = 10000): Promise<void> {
+async function waitForMermaidDiagrams(
+  page: Page,
+  timeout: number = 10000,
+): Promise<void> {
   try {
     // Check if there are any mermaid containers
-    const mermaidContainers = page.locator(".mermaid, pre.mermaid, [data-mermaid]");
+    const mermaidContainers = page.locator(
+      ".mermaid, pre.mermaid, [data-mermaid]",
+    );
     const count = await mermaidContainers.count();
 
     if (count === 0) {
@@ -89,15 +103,17 @@ async function waitForMermaidDiagrams(page: Page, timeout: number = 10000): Prom
     // Wait for mermaid to finish rendering (look for rendered SVGs)
     await page.waitForFunction(
       () => {
-        const containers = document.querySelectorAll(".mermaid, pre.mermaid, [data-mermaid]");
+        const containers = document.querySelectorAll(
+          ".mermaid, pre.mermaid, [data-mermaid]",
+        );
         if (containers.length === 0) return true;
 
         // Check if all containers have SVGs rendered
         return Array.from(containers).every(
-          (container) => container.querySelector("svg") !== null
+          (container) => container.querySelector("svg") !== null,
         );
       },
-      { timeout }
+      { timeout },
     );
 
     // Additional small wait for any animations
@@ -120,7 +136,7 @@ async function waitForFonts(page: Page, timeout: number = 5000): Promise<void> {
 
 export async function captureGistScreenshot(
   gistUrl: string,
-  darkMode: boolean = false
+  darkMode: boolean = false,
 ): Promise<Buffer> {
   const browser = await getBrowser();
   const context: BrowserContext = await browser.newContext({

@@ -1,6 +1,10 @@
 import { resolve, dirname } from "path";
 import { createServer, type ServerState } from "../../../src/server/index.ts";
-import { getDirName, getRelativePath, getFilename } from "../../../src/utils/paths.ts";
+import {
+  getDirName,
+  getRelativePath,
+  getFilename,
+} from "../../../src/utils/paths.ts";
 
 export interface TestServer {
   url: string;
@@ -8,7 +12,10 @@ export interface TestServer {
   stop: () => void;
 }
 
-export async function startTestServer(markdownPath: string, port?: number): Promise<TestServer> {
+export async function startTestServer(
+  markdownPath: string,
+  port?: number,
+): Promise<TestServer> {
   const filePath = resolve(markdownPath);
   const content = await Bun.file(filePath).text();
   const filename = getFilename(filePath);
@@ -21,7 +28,7 @@ export async function startTestServer(markdownPath: string, port?: number): Prom
 
   const state: ServerState = { server: null, isOpen: true };
 
-  const server = createServer(
+  const { server } = await createServer(
     {
       port: serverPort,
       filename,
@@ -63,7 +70,10 @@ async function findAvailablePort(startPort: number = 4000): Promise<number> {
   throw new Error("Could not find available port");
 }
 
-async function waitForServer(url: string, timeout: number = 5000): Promise<void> {
+async function waitForServer(
+  url: string,
+  timeout: number = 5000,
+): Promise<void> {
   const start = Date.now();
   while (Date.now() - start < timeout) {
     try {
