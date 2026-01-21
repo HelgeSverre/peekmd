@@ -104,7 +104,11 @@ describe("resolveAssetPath", () => {
   });
 
   test("blocks directory traversal", () => {
-    const result = resolveAssetPath("../../../etc/passwd", testDir, process.cwd());
+    const result = resolveAssetPath(
+      "../../../etc/passwd",
+      testDir,
+      process.cwd(),
+    );
     expect(result).toBeNull();
   });
 

@@ -1,5 +1,9 @@
 import { test, expect, describe } from "bun:test";
-import { renderMarkdown, extractDescription, extractTopics } from "../../src/markdown/parser.ts";
+import {
+  renderMarkdown,
+  extractDescription,
+  extractTopics,
+} from "../../src/markdown/parser.ts";
 
 describe("renderMarkdown", () => {
   test("renders basic markdown", () => {
@@ -95,7 +99,8 @@ describe("extractDescription", () => {
   });
 
   test("strips markdown links", () => {
-    const input = "# Title\n\nCheck out [this link](https://example.com) for more.";
+    const input =
+      "# Title\n\nCheck out [this link](https://example.com) for more.";
     const description = extractDescription(input);
 
     expect(description).toContain("this link");
@@ -103,14 +108,16 @@ describe("extractDescription", () => {
   });
 
   test("skips images and finds text paragraph", () => {
-    const input = "# Title\n\n![Badge](https://img.shields.io/badge.svg)\n\nActual description here.";
+    const input =
+      "# Title\n\n![Badge](https://img.shields.io/badge.svg)\n\nActual description here.";
     const description = extractDescription(input);
 
     expect(description).toBe("Actual description here.");
   });
 
   test("removes inline images from description", () => {
-    const input = "# Title\n\nA systems language with ![Rust](https://rust-lang.org) inside.";
+    const input =
+      "# Title\n\nA systems language with ![Rust](https://rust-lang.org) inside.";
     const description = extractDescription(input);
 
     expect(description).toBe("A systems language with inside.");
@@ -118,7 +125,8 @@ describe("extractDescription", () => {
   });
 
   test("skips lines starting with images", () => {
-    const input = "# Title\n\n![Badge](https://example.com)\n\nReal description.";
+    const input =
+      "# Title\n\n![Badge](https://example.com)\n\nReal description.";
     const description = extractDescription(input);
 
     expect(description).toBe("Real description.");
@@ -132,7 +140,8 @@ describe("extractDescription", () => {
   });
 
   test("skips tables", () => {
-    const input = "# Title\n\n| A | B |\n|---|---|\n| 1 | 2 |\n\nDescription text.";
+    const input =
+      "# Title\n\n| A | B |\n|---|---|\n| 1 | 2 |\n\nDescription text.";
     const description = extractDescription(input);
 
     expect(description).toBe("Description text.");

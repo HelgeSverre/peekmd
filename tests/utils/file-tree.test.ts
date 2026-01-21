@@ -1,5 +1,10 @@
 import { test, expect, describe } from "bun:test";
-import { formatSize, getFileTree, renderFileTree, type FileNode } from "../../src/utils/file-tree.ts";
+import {
+  formatSize,
+  getFileTree,
+  renderFileTree,
+  type FileNode,
+} from "../../src/utils/file-tree.ts";
 
 describe("formatSize", () => {
   test("formats bytes", () => {
@@ -66,9 +71,7 @@ describe("renderFileTree", () => {
   });
 
   test("renders folder nodes", () => {
-    const nodes: FileNode[] = [
-      { name: "src", type: "folder", children: [] },
-    ];
+    const nodes: FileNode[] = [{ name: "src", type: "folder", children: [] }];
     const output = renderFileTree(nodes);
 
     expect(output).toContain("src");

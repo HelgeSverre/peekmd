@@ -26,7 +26,9 @@ describe("extractAssetPath", () => {
   });
 
   test("decodes URL-encoded paths", () => {
-    expect(extractAssetPath("/__assets__/path%20with%20spaces.png")).toBe("path with spaces.png");
+    expect(extractAssetPath("/__assets__/path%20with%20spaces.png")).toBe(
+      "path with spaces.png",
+    );
     expect(extractAssetPath("/__assets__/.%2Fimage.png")).toBe("./image.png");
   });
 });

@@ -4,9 +4,9 @@ A comprehensive test file for all GitHub-flavored markdown features supported by
 
 ## Text Formatting
 
-Regular paragraph text with **bold**, *italic*, ***bold italic***, and ~~strikethrough~~ text.
+Regular paragraph text with **bold**, _italic_, **_bold italic_**, and ~~strikethrough~~ text.
 
-You can also use __bold__ and _italic_ with underscores.
+You can also use **bold** and _italic_ with underscores.
 
 Inline `code` looks like this.
 
@@ -24,15 +24,21 @@ Images (these won't load, just testing syntax):
 ## Headings
 
 # Heading 1
+
 ## Heading 2
+
 ### Heading 3
+
 #### Heading 4
+
 ##### Heading 5
+
 ###### Heading 6
 
 ## Lists
 
 ### Unordered List
+
 - Item 1
 - Item 2
   - Nested item 2.1
@@ -41,6 +47,7 @@ Images (these won't load, just testing syntax):
 - Item 3
 
 ### Ordered List
+
 1. First item
 2. Second item
    1. Nested item 2.1
@@ -48,6 +55,7 @@ Images (these won't load, just testing syntax):
 3. Third item
 
 ### Task Lists
+
 - [x] Completed task
 - [ ] Incomplete task
 - [x] Another completed task
@@ -60,7 +68,9 @@ Images (these won't load, just testing syntax):
 > It can span multiple lines.
 
 > Nested blockquotes:
+>
 > > This is nested
+> >
 > > > And even deeper
 
 ## GitHub Alerts
@@ -83,6 +93,7 @@ Images (these won't load, just testing syntax):
 ## Code Blocks
 
 ### JavaScript
+
 ```javascript
 function greet(name) {
   console.log(`Hello, ${name}!`);
@@ -93,6 +104,7 @@ const result = greet("World");
 ```
 
 ### TypeScript
+
 ```typescript
 interface User {
   id: number;
@@ -106,6 +118,7 @@ function createUser(data: Partial<User>): User {
 ```
 
 ### Python
+
 ```python
 def fibonacci(n: int) -> list[int]:
     """Generate Fibonacci sequence up to n terms."""
@@ -118,6 +131,7 @@ print(fibonacci(10))
 ```
 
 ### Bash
+
 ```bash
 #!/bin/bash
 echo "Hello from bash!"
@@ -127,6 +141,7 @@ done
 ```
 
 ### JSON
+
 ```json
 {
   "name": "peekmd",
@@ -138,6 +153,7 @@ done
 ```
 
 ### Diff
+
 ```diff
 - const old = "removed";
 + const new = "added";
@@ -145,6 +161,7 @@ done
 ```
 
 ### Plain code block (no language)
+
 ```
 This is a plain code block
 with no syntax highlighting.
@@ -153,32 +170,35 @@ with no syntax highlighting.
 ## Tables
 
 ### Simple Table
-| Name | Age | Role |
-|------|-----|------|
-| Alice | 30 | Developer |
-| Bob | 25 | Designer |
-| Charlie | 35 | Manager |
+
+| Name    | Age | Role      |
+| ------- | --- | --------- |
+| Alice   | 30  | Developer |
+| Bob     | 25  | Designer  |
+| Charlie | 35  | Manager   |
 
 ### Aligned Table
+
 | Left | Center | Right |
-|:-----|:------:|------:|
-| L1 | C1 | R1 |
-| L2 | C2 | R2 |
-| L3 | C3 | R3 |
+| :--- | :----: | ----: |
+| L1   |   C1   |    R1 |
+| L2   |   C2   |    R2 |
+| L3   |   C3   |    R3 |
 
 ### Complex Table
-| Feature | Status | Notes |
-|---------|--------|-------|
-| **Bold** | `code` | [link](#) |
-| *Italic* | ~~strike~~ | Normal |
+
+| Feature  | Status     | Notes     |
+| -------- | ---------- | --------- |
+| **Bold** | `code`     | [link](#) |
+| _Italic_ | ~~strike~~ | Normal    |
 
 ## Horizontal Rules
 
 ---
 
-***
+---
 
-___
+---
 
 ## Footnotes
 
@@ -228,6 +248,7 @@ You can see this content immediately.
 ## Mermaid Diagrams
 
 ### Flowchart
+
 ```mermaid
 graph TD
     A[Start] --> B{Is it working?}
@@ -238,6 +259,7 @@ graph TD
 ```
 
 ### Sequence Diagram
+
 ```mermaid
 sequenceDiagram
     participant Browser
@@ -251,6 +273,7 @@ sequenceDiagram
 ```
 
 ### Pie Chart
+
 ```mermaid
 pie title Languages Used
     "JavaScript" : 45
@@ -262,10 +285,12 @@ pie title Languages Used
 ## Edge Cases
 
 ### Empty Elements
+
 -
 - Non-empty item
 
 ### Special Characters
+
 - Ampersand: &
 - Less than: <
 - Greater than: >
@@ -274,14 +299,16 @@ pie title Languages Used
 - Backtick in code: `` `code` ``
 
 ### Long Content
+
 This is a very long paragraph that should wrap properly in the preview. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 
 ### Escape Characters
+
 \*Not italic\*
-\**Not bold\**
+\*\*Not bold\*\*
 \[Not a link\](url)
 \`Not code\`
 
 ---
 
-*End of kitchen sink test file.*
+_End of kitchen sink test file._
