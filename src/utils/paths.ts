@@ -52,13 +52,15 @@ export function resolveAssetPath(
   // Normalize the path to prevent directory traversal
   const normalizedPath = normalize(assetPath);
 
-  // Block absolute paths and traversal attempts
-  if (normalizedPath.startsWith("/") || normalizedPath.includes("..")) {
-    // For absolute paths, try them directly if they exist
-    if (normalizedPath.startsWith("/")) {
-      if (existsSync(normalizedPath) && isValidAssetPath(normalizedPath, cwd)) {
-        return normalizedPath;
-      }
+  // Block directory traversal attempts
+  if (normalizedPath.includes("..")) {
+    return null;
+  }
+
+  // Handle absolute paths
+  if (normalizedPath.startsWith("/")) {
+    if (existsSync(normalizedPath) && isValidAssetPath(normalizedPath, cwd)) {
+      return normalizedPath;
     }
     return null;
   }
