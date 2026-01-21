@@ -66,6 +66,7 @@ export async function handleRequest(
     const templateData: TemplateData = {
       filename: context.filename,
       content: contentWithProxiedAssets,
+      rawContent: context.content,
       fileTree,
       repoName: context.repoName,
       dirPath: context.dirPath,

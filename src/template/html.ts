@@ -4,6 +4,7 @@ import { getScripts, getMermaidInit } from "./scripts.ts";
 export interface TemplateData {
   filename: string;
   content: string;
+  rawContent: string;
   fileTree: string;
   repoName: string;
   dirPath: string;
@@ -140,7 +141,7 @@ export function getHtml(data: TemplateData): string {
               ${FILE_ICON}
               ${data.filename}
             </div>
-            <button class="btn-icon" aria-label="Copy" data-tooltip="Copy">
+            <button class="btn-icon" id="copyBtn" aria-label="Copy" data-tooltip="Copy">
               ${COPY_ICON}
             </button>
           </div>
@@ -202,6 +203,7 @@ export function getHtml(data: TemplateData): string {
     </div>
   </div>
   <div class="toast" id="toast"></div>
+  <script id="raw-content" type="application/json">${JSON.stringify(data.rawContent)}</script>
   <script>${scripts}</script>
 </body>
 </html>`;

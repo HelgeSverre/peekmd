@@ -27,6 +27,22 @@ export function getScripts(): string {
         localStorage.setItem('fileTreeOpen', fileTree.open);
       });
     }
+
+    // Copy button
+    const copyBtn = document.getElementById('copyBtn');
+    const toast = document.getElementById('toast');
+    if (copyBtn) {
+      copyBtn.addEventListener('click', async () => {
+        const rawContentEl = document.getElementById('raw-content');
+        if (rawContentEl) {
+          const rawContent = JSON.parse(rawContentEl.textContent);
+          await navigator.clipboard.writeText(rawContent);
+          toast.textContent = 'Copied!';
+          toast.classList.add('show');
+          setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+      });
+    }
   `;
 }
 
