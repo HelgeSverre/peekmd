@@ -7,18 +7,25 @@
 
 A CLI tool to preview markdown files with GitHub-style rendering in your browser.
 
+| Light mode | Dark mode |
+|---|---|
+| ![Light mode](screenshots/light.png) | ![Dark mode](screenshots/dark.png) |
+
 ## Features
 
 - GitHub Flavored Markdown (GFM) rendering
-- Syntax highlighting for code blocks
+- Syntax highlighting for code blocks (50+ languages)
 - GitHub-style alerts (`[!NOTE]`, `[!TIP]`, `[!WARNING]`, `[!IMPORTANT]`, `[!CAUTION]`)
-- Mermaid diagram rendering
+- Mermaid diagram rendering (flowcharts, sequence diagrams, pie charts, etc.)
 - Task lists with checkboxes
 - Strikethrough text
 - Footnotes
 - Anchor links on headings
 - File tree sidebar with collapse state persistence
-- Dark mode support
+- Copy raw markdown to clipboard
+- Local image proxying (relative image paths just work)
+- Dark mode with system preference detection
+- Auto port selection when default port is in use
 - Opens in your default browser automatically
 - Auto-closes when you close the browser tab
 - Cross-platform: macOS, Linux, Windows
@@ -110,7 +117,7 @@ mv peekmd ~/.local/bin/
 ## Usage
 
 ```bash
-# Preview a README file
+# Preview a markdown file
 peekmd README.md
 
 # Preview any markdown file
@@ -123,41 +130,20 @@ peekmd /path/to/file.md
 peekmd --version
 ```
 
-## Controls
+## How it works
 
-- Close the browser tab to stop the server
-
-## What it does
-
-peekmd renders your markdown files with a GitHub-style interface by:
-
-1. **Reading the markdown file** specified in the CLI argument
-2. **Extracting metadata**:
-   - **Description**: Finds the first paragraph after any heading (filters out headings, lists, and code blocks)
-   - **Topics**: Generates placeholder tags based on the repository name (currently hardcoded: "markdown", "preview", "documentation")
-   - **Repository stats**: Placeholder values for stars (0), watchers (1), and forks (0)
-3. **Generating a file tree**: Creates a directory tree view of the current working directory (up to 3 levels deep, max 20 items per level)
-4. **Rendering the markdown**: Converts markdown to HTML with:
-   - GitHub Flavored Markdown (GFM) support
-   - Syntax highlighting for code blocks
-   - GitHub-style alerts (`[!NOTE]`, `[!TIP]`, etc.)
-   - Task lists with checkboxes
-   - Anchor links on headings
-5. **Replacing template placeholders**:
-   - `{{filename}}` - The markdown filename
-   - `{{repoName}}` - The parent directory name
-   - `{{dirPath}}` - The relative directory path
-   - `{{content}}` - The rendered markdown HTML
-   - `{{fileTree}}` - The directory tree structure
-   - `{{description}}` - The extracted description
-   - `{{topics}}` - The generated topic tags
-   - `{{stars}}`, `{{watchers}}`, `{{forks}}` - Repository stats
-6. **Starting a local server** on port 3456 and opening the preview in your default browser
+1. Reads the markdown file and renders it to HTML using `markdown-it` with syntax highlighting, alerts, mermaid diagrams, and other GFM extensions
+2. Generates a file tree from the current working directory (3 levels deep, max 20 items per level)
+3. Extracts a description from the first paragraph after any heading
+4. Wraps everything in a GitHub-style HTML template with header, navigation, sidebar, and file tree
+5. Starts a local Bun server (default port 3456, auto-selects if in use) and opens the preview in your browser
+6. Proxies relative image paths through the server so local images render correctly
+7. Auto-closes the server when you close the browser tab
 
 ## Development
 
 ```bash
-# Run in development mode
+# Run in development mode (previews README.md)
 bun run dev
 
 # Format code
@@ -170,29 +156,29 @@ bun run compile
 ## Testing
 
 ```bash
-# Run all tests
+# Run all unit tests
 bun test
 
+# Run tests with watch mode
+bun test --watch
+
+# Run tests with coverage
+bun test --coverage
+
 # Run visual regression tests
-bun test:visual
+bun run test:visual
 
 # Update visual baselines (after intentional UI changes)
-bun test:visual:update
+bun run test:visual:update
 
 # Run visual tests without GitHub gist comparison (faster)
-bun test:visual:local
+bun run test:visual:local
+
+# Manual testing with kitchen-sink file
+bun run test:manual
 ```
 
-Visual regression tests capture screenshots across multiple viewports (desktop, tablet, mobile) and color modes (light, dark) to ensure consistent rendering.
-
-## Why Bun?
-
-peekmd uses Bun's built-in HTTP server (`Bun.serve()`) for its simplicity and performance. This means:
-
-- Zero configuration HTTP server
-- Native TypeScript execution
-- Fast startup time
-- Small package size (ships TypeScript source, no build step needed)
+Visual regression tests use Playwright to capture screenshots across multiple viewports (desktop, tablet, mobile) and color modes (light, dark), then compare against baseline images using pixelmatch.
 
 ## Troubleshooting
 
@@ -227,4 +213,4 @@ Or if running from source, make sure `cli.ts` has `#!/usr/bin/env bun` as the fi
 
 ## License
 
-MIT
+[MIT](LICENSE)

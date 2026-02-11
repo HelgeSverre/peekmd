@@ -20,6 +20,15 @@ bun test --watch
 # Run tests with coverage
 bun test --coverage
 
+# Run visual regression tests
+bun run test:visual
+
+# Update visual baselines (after intentional UI changes)
+bun run test:visual:update
+
+# Run visual tests without GitHub gist comparison (faster)
+bun run test:visual:local
+
 # Manual testing with kitchen-sink file (all features)
 bun run test:manual
 
@@ -64,10 +73,12 @@ src/
     paths.ts             # Path resolution, content-types
 
 tests/
+  cli.test.ts            # CLI argument parsing tests
   markdown/*.test.ts     # Markdown rendering tests
   server/*.test.ts       # Server tests
   utils/*.test.ts        # Utility tests
   fixtures/              # Test markdown files
+  visual/                # Visual regression tests (Playwright + pixelmatch)
 ```
 
 ## Distribution
@@ -83,14 +94,15 @@ This package ships TypeScript source directly (no build step). Bun runs TypeScri
 - `markdown-it-footnote` - Footnote support
 - `highlight.js` - Syntax highlighting for code blocks
 - `get-port` - Auto port selection
+- `mermaid` - Diagram rendering (loaded from CDN, not an npm dependency)
 
 ## How It Works
 
 1. Reads markdown file from CLI argument
 2. Renders to HTML using `markdown-it` with GitHub-style styling
-3. Starts a local Bun server on port 3456
+3. Starts a local Bun server (default port 3456, auto-selects if in use)
 4. Opens the preview in the default browser
-5. Server auto-closes when browser window closes (via `/close` endpoint)
+5. Server auto-closes when browser tab closes (via `/close` endpoint)
 6. Asset proxy rewrites relative image paths for local images
 
 ## Features
@@ -103,8 +115,10 @@ This package ships TypeScript source directly (no build step). Bun runs TypeScri
 - Footnotes
 - Anchor links on headings
 - File tree sidebar with collapse state persistence
+- Copy raw markdown to clipboard
 - Mermaid diagram rendering
-- Dark mode support
+- Dark mode with system preference detection
+- Auto port selection
 - Local image proxying
 
 ---

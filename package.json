@@ -27,7 +27,8 @@
     "peekmd": "src/cli.ts"
   },
   "files": [
-    "src"
+    "src",
+    "!src/template/styles.css"
   ],
   "scripts": {
     "compile": "bun build ./src/cli.ts --compile --minify --bytecode --outfile peekmd",
