@@ -156,10 +156,18 @@ describe("extractDescription", () => {
 });
 
 describe("extractTopics", () => {
-  test("returns default topics", () => {
-    const topics = extractTopics("my-repo");
+  test("includes markdown tag and derives tags from repo name", () => {
+    const topics = extractTopics("my-awesome-repo");
 
     expect(topics).toContain("markdown");
-    expect(topics).toContain("preview");
+    expect(topics).toContain("awesome");
+    expect(topics).toContain("repo");
+  });
+
+  test("normalizes repo names with separators", () => {
+    const topics = extractTopics("Foo_Bar.dev");
+
+    expect(topics).toContain("foo");
+    expect(topics).toContain("bar");
   });
 });

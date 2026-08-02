@@ -28,9 +28,10 @@ export async function startTestServer(
 
   const state: ServerState = { server: null, isOpen: true };
 
-  const { server } = await createServer(
+  const { server, stop } = await createServer(
     {
       port: serverPort,
+      filePath,
       filename,
       content,
       repoName,
@@ -49,7 +50,7 @@ export async function startTestServer(
     url,
     port: serverPort,
     stop: () => {
-      server.stop();
+      stop();
     },
   };
 }

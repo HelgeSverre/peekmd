@@ -1,4 +1,4 @@
-import { dirname, sep, resolve, extname, normalize } from "path";
+import { dirname, sep, resolve, extname, normalize, relative } from "path";
 import { existsSync, statSync } from "fs";
 
 export function getDirName(filePath: string): string {
@@ -6,9 +6,14 @@ export function getDirName(filePath: string): string {
   return dir.split(sep).pop() || "peekmd";
 }
 
+/**
+ * Path of the markdown file's directory, relative to the current working
+ * directory (GitHub-style repo-relative path). Empty string when the file
+ * lives at the cwd root.
+ */
 export function getRelativePath(filePath: string): string {
-  const dir = dirname(filePath);
-  return dir === "." ? "" : dir;
+  const dir = relative(process.cwd(), dirname(filePath));
+  return dir === "." || dir.startsWith("..") ? "" : dir;
 }
 
 export function getFilename(filePath: string): string {

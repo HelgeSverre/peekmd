@@ -141,16 +141,15 @@ function normalizeImage(
     }
   }
 
-  // Copy original image data
+  // Copy original image data row by row (truncating to the target width)
+  const src = png.data;
+  const dst = normalized.data;
+  const copyWidth = Math.min(png.width, targetWidth);
   for (let y = 0; y < png.height && y < targetHeight; y++) {
-    for (let x = 0; x < png.width && x < targetWidth; x++) {
-      const srcIdx = (png.width * y + x) << 2;
-      const dstIdx = (targetWidth * y + x) << 2;
-      normalized.data[dstIdx] = png.data[srcIdx];
-      normalized.data[dstIdx + 1] = png.data[srcIdx + 1];
-      normalized.data[dstIdx + 2] = png.data[srcIdx + 2];
-      normalized.data[dstIdx + 3] = png.data[srcIdx + 3];
-    }
+    const srcStart = (png.width * y) << 2;
+    const srcEnd = srcStart + copyWidth * 4;
+    const dstStart = (targetWidth * y) << 2;
+    dst.set(src.subarray(srcStart, srcEnd), dstStart);
   }
 
   return normalized;

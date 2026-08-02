@@ -1,0 +1,16 @@
+#compdef peekmd
+# zsh completion for peekmd
+# Install: cp completions/_peekmd ~/.zfunc/ (ensure ~/.zfunc is in $fpath)
+
+_peekmd() {
+  local -a args
+  args=(
+    '(-v --version)'{-v,--version}'[Print the version number]'
+    '--no-open[Do not open the browser (server only)]'
+    '--no-browser[Alias for --no-open]'
+    '--help[Show help]'
+  )
+  _arguments -s $args '*:markdown file:_files -g "*.md"'
+}
+
+_peekmd "$@"

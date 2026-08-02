@@ -1,5 +1,5 @@
 import hljs from "highlight.js";
-import type MarkdownIt from "markdown-it";
+import { type MarkdownIt } from "markdown-it";
 
 export function highlightCode(code: string, language: string): string {
   if (language && hljs.getLanguage(language)) {
@@ -12,10 +12,6 @@ export function highlightCode(code: string, language: string): string {
   return hljs.highlightAuto(code).value;
 }
 
-export function createHighlightPlugin(): (md: MarkdownIt) => void {
-  return (md: MarkdownIt) => {
-    md.options.highlight = (code: string, lang: string): string => {
-      return highlightCode(code, lang);
-    };
-  };
+export function createHighlightPlugin(md: MarkdownIt): void {
+  md.options.highlight = highlightCode;
 }

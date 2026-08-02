@@ -7,13 +7,13 @@
 
   /* Foreground/Text */
   --color-fg-default: #1f2328;
-  --color-fg-muted: #656d76;
-  --color-fg-subtle: #6e7781;
+  --color-fg-muted: #59636e;
+  --color-fg-subtle: #59636e;
   --color-fg-on-emphasis: #ffffff;
 
   /* Borders */
   --color-border-default: #d0d7de;
-  --color-border-muted: hsla(210, 18%, 87%, 1);
+  --color-border-muted: rgba(209, 217, 224, 0.7);
   --color-border-subtle: rgba(175, 184, 193, 0.2);
 
   /* Accent/Links */
@@ -49,7 +49,7 @@
 
   /* Special */
   --color-highlight-bg: #fff8c5;
-  --color-counter-bg: rgba(175, 184, 193, 0.2);
+  --color-counter-bg: rgba(129, 139, 152, 0.12);
   --color-checkbox-checked: #0969da;
   --color-nav-selected: #fd8c73;
   --color-topic-tag-bg: #ddf4ff;
@@ -136,18 +136,18 @@
 }
 body {
   font-family:
-    -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica,
-    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+    "Mona Sans VF", -apple-system, "system-ui", "Segoe UI", "Noto Sans Backtick Fix",
+    "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
   font-size: 14px;
   line-height: 1.5;
   color: var(--color-fg-default);
-  background-color: var(--color-canvas-subtle);
+  background-color: var(--color-canvas-default);
 }
 
 /* GitHub Header */
 .AppHeader {
-  background: #24292f;
-  padding: 16px;
+  background: #25292e;
+  padding: 16px 32px;
   display: flex;
   align-items: center;
   gap: 16px;
@@ -196,6 +196,20 @@ body {
 }
 .AppHeader-nav a:hover {
   color: hsla(0, 0%, 100%, 0.7);
+}
+.btn-sign-in {
+  display: inline-block;
+  padding: 5px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  color: #fff;
+  background: #1f883d;
+  border-radius: 6px;
+}
+.btn-sign-in:hover {
+  background: #1a7f37;
+  color: #fff;
 }
 .dark-toggle {
   background: none;
@@ -268,7 +282,7 @@ body {
 .UnderlineNav {
   background: var(--color-canvas-default);
   border-bottom: 1px solid var(--color-border-default);
-  padding: 0 24px;
+  padding: 0 32px;
 }
 .UnderlineNav-body {
   max-width: 1280px;
@@ -276,15 +290,18 @@ body {
   display: flex;
   gap: 8px;
   overflow-x: auto;
+  overflow-y: hidden;
 }
 .UnderlineNav-item {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 16px;
+  padding: 8px 8px;
+  margin-bottom: -1px;
   color: var(--color-fg-muted);
   text-decoration: none;
   font-size: 14px;
+  font-weight: 500;
   border-bottom: 2px solid transparent;
   white-space: nowrap;
 }
@@ -333,14 +350,10 @@ body {
 
 /* Sidebar */
 .BorderGrid {
-  border-top: 1px solid var(--color-border-default);
 }
 .BorderGrid-row {
   padding: 16px 0;
   border-bottom: 1px solid var(--color-border-default);
-}
-.BorderGrid-row:first-child {
-  border-top: none;
 }
 .BorderGrid-cell h2 {
   font-size: 14px;
@@ -452,42 +465,45 @@ body {
   height: 16px;
   fill: var(--color-fg-muted);
 }
-.Box-header .btn-sm {
+.btn-icon {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  padding: 3px 12px;
-  font-size: 12px;
-  font-weight: 500;
-  background: var(--color-canvas-subtle);
+  justify-content: center;
+  padding: 4px;
+  background: none;
   border: 1px solid var(--color-btn-border);
   border-radius: 6px;
-  color: var(--color-fg-default);
+  color: var(--color-fg-muted);
   cursor: pointer;
 }
-.Box-header .btn-sm:hover {
+.btn-icon:hover {
   background: var(--color-btn-hover-bg);
-  border-color: var(--color-btn-border);
+  color: var(--color-fg-default);
 }
-.Box-header .btn-sm svg {
+.btn-icon svg {
   width: 16px;
   height: 16px;
   fill: currentColor;
 }
 
 /* Collapsible Box (details/summary) */
-details.Box {
+details.Box-tree {
 }
-details.Box > summary.Box-header {
+details.Box-tree > summary.Box-header {
   cursor: pointer;
   list-style: none;
   user-select: none;
 }
-details.Box > summary.Box-header::-webkit-details-marker {
+details.Box-tree > summary.Box-header::-webkit-details-marker {
   display: none;
 }
-details.Box > summary.Box-header::marker {
+details.Box-tree > summary.Box-header::marker {
   display: none;
+}
+.Box-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 .details-toggle {
   display: flex;
@@ -501,14 +517,20 @@ details.Box > summary.Box-header::marker {
 .details-toggle .chevron-right {
   display: none;
 }
-details.Box:not([open]) .details-toggle .chevron-down {
+details.Box-tree:not([open]) .details-toggle .chevron-down {
   display: none;
 }
-details.Box:not([open]) .details-toggle .chevron-right {
+details.Box-tree:not([open]) .details-toggle .chevron-right {
   display: block;
 }
-details.Box:not([open]) > summary.Box-header {
+details.Box-tree:not([open]) > summary.Box-header {
   border-bottom: none;
+}
+.Box-readme {
+  border-top: 1px solid var(--color-border-default);
+}
+details.Box-tree:not([open]) + .Box-readme {
+  border-top: none;
 }
 
 /* File Tree - GitHub Table Styles */
@@ -620,8 +642,8 @@ details.Box:not([open]) > summary.Box-header {
 /* Markdown Body - GitHub's exact styling */
 .markdown-body {
   font-family:
-    -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica,
-    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+    "Mona Sans VF", -apple-system, "system-ui", "Segoe UI", "Noto Sans Backtick Fix",
+    "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
   font-size: 16px;
   line-height: 1.5;
   word-wrap: break-word;
@@ -638,19 +660,19 @@ details.Box:not([open]) > summary.Box-header {
   border-bottom: 1px solid var(--color-border-muted);
 }
 .markdown-body h1 {
-  font-size: 2em;
-  margin: 0.67em 0 16px;
+  font-size: 32px;
+  margin: 24px 0 16px;
   font-weight: 600;
-  line-height: 1.25;
+  line-height: 40px;
 }
 .markdown-body h1:first-child {
   margin-top: 0;
 }
 .markdown-body h2 {
-  font-size: 1.5em;
+  font-size: 24px;
   margin: 24px 0 16px;
   font-weight: 600;
-  line-height: 1.25;
+  line-height: 30px;
 }
 .markdown-body h3 {
   font-size: 1.25em;
@@ -705,12 +727,20 @@ details.Box:not([open]) > summary.Box-header {
 }
 
 /* Paragraphs and text */
+.markdown-body > :first-child {
+  margin-top: 0 !important;
+}
+.markdown-body > :last-child {
+  margin-bottom: 0 !important;
+}
 .markdown-body p {
   margin: 0 0 16px;
+  font-size: 16px;
+  line-height: 24px;
 }
 .markdown-body a {
   color: var(--color-accent-fg);
-  text-decoration: none;
+  text-decoration: underline;
 }
 .markdown-body a:hover {
   text-decoration: underline;
@@ -944,7 +974,6 @@ details.Box:not([open]) > summary.Box-header {
 }
 .markdown-body table th {
   font-weight: 600;
-  background-color: var(--color-canvas-subtle);
 }
 .markdown-body table tr {
   background-color: var(--color-canvas-default);

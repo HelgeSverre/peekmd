@@ -7,12 +7,13 @@ function createMockContext(
 ): RouteContext {
   return {
     filename: "test.md",
-    content: "# Hello World\n\nThis is a test.",
+    getContent: () => "# Hello World\n\nThis is a test.",
     repoName: "test-repo",
     dirPath: "",
     markdownDir: resolve(__dirname, "../fixtures"),
     server: null,
     onClose: () => {},
+    onPing: () => {},
     ...overrides,
   };
 }
@@ -35,7 +36,7 @@ describe("handleRequest", () => {
 
     test("renders markdown content", async () => {
       const context = createMockContext({
-        content: "# My Title\n\nSome paragraph text.",
+        getContent: () => "# My Title\n\nSome paragraph text.",
       });
       const response = await handleRequest(createRequest("/"), context);
       const html = await response.text();
@@ -62,7 +63,7 @@ describe("handleRequest", () => {
 
     test("renders code blocks with syntax highlighting", async () => {
       const context = createMockContext({
-        content: "```javascript\nconst x = 1;\n```",
+        getContent: () => "```javascript\nconst x = 1;\n```",
       });
       const response = await handleRequest(createRequest("/"), context);
       const html = await response.text();

@@ -15,11 +15,11 @@ import { getFileTree, renderFileTree } from "../utils/file-tree.ts";
 
 export interface RouteContext {
   filename: string;
-  content: string;
+  getContent: () => string;
   repoName: string;
   dirPath: string;
   markdownDir: string;
-  server: Server | null;
+  server: Server<unknown> | null;
   onClose: () => void;
   onPing: () => void;
 }
@@ -52,33 +52,37 @@ export async function handleRequest(
 
   // Main page
   if (pathname === "/") {
-    const renderedContent = renderMarkdown(context.content);
-    const contentWithProxiedAssets = rewriteAssetUrls(
-      renderedContent,
-      context.markdownDir,
-    );
-    const fileTree = renderFileTree(getFileTree(process.cwd(), 3));
-    const description = extractDescription(context.content);
-    const topics = extractTopics(context.repoName)
-      .map((t) => `<a href="#" class="topic-tag">${t}</a>`)
-      .join("");
-
-    const templateData: TemplateData = {
-      filename: context.filename,
-      content: contentWithProxiedAssets,
-      rawContent: context.content,
-      fileTree,
-      repoName: context.repoName,
-      dirPath: context.dirPath,
-      description,
-      topics,
-    };
-
-    const html = getHtml(templateData);
-    return new Response(html, {
+    return new Response(renderPage(context), {
       headers: { "Content-Type": "text/html; charset=utf-8" },
     });
   }
 
   return new Response("Not found", { status: 404 });
+}
+
+function renderPage(context: RouteContext): string {
+  const content = context.getContent();
+  const renderedContent = renderMarkdown(content);
+  const contentWithProxiedAssets = rewriteAssetUrls(
+    renderedContent,
+    context.markdownDir,
+  );
+  const fileTree = renderFileTree(getFileTree(context.markdownDir, 3));
+  const description = extractDescription(content);
+  const topics = extractTopics(context.repoName)
+    .map((t) => `<a href="#" class="topic-tag">${t}</a>`)
+    .join("");
+
+  const templateData: TemplateData = {
+    filename: context.filename,
+    content: contentWithProxiedAssets,
+    rawContent: content,
+    fileTree,
+    repoName: context.repoName,
+    dirPath: context.dirPath,
+    description,
+    topics,
+  };
+
+  return getHtml(templateData);
 }

@@ -35,7 +35,7 @@ describe("CLI", () => {
     const tempFile = "/tmp/test-peekmd.txt";
     await Bun.write(tempFile, "# Test content");
 
-    const proc = Bun.spawn(["bun", CLI_PATH, tempFile], {
+    const proc = Bun.spawn(["bun", CLI_PATH, tempFile, "--no-open"], {
       stdout: "pipe",
       stderr: "pipe",
     });

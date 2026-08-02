@@ -1,22 +1,28 @@
-export function showToast(message: string): void {
-  console.log(`[peekmd] ${message}`);
-}
-
 export async function openBrowser(url: string): Promise<void> {
   const { execSync } = await import("child_process");
-  const platform = process.platform;
+
+  const commands: Record<NodeJS.Platform, string | null> = {
+    darwin: `open "${url}"`,
+    win32: `start "" "${url}"`,
+    linux: `xdg-open "${url}"`,
+    aix: null,
+    android: null,
+    freebsd: `xdg-open "${url}"`,
+    haiku: null,
+    openbsd: `xdg-open "${url}"`,
+    sunos: `xdg-open "${url}"`,
+    cygwin: null,
+    netbsd: null,
+  };
+
+  const command = commands[process.platform];
+  if (!command) return;
 
   try {
-    if (platform === "darwin") {
-      execSync(`open "${url}"`, { stdio: "ignore" });
-    } else if (platform === "win32") {
-      execSync(`start "" "${url}"`, { stdio: "ignore" });
-    } else {
-      execSync(`xdg-open "${url}"`, { stdio: "ignore" });
-    }
+    execSync(command, { stdio: "ignore" });
   } catch {
-    showToast(
-      "Could not open browser automatically. Please open the URL manually.",
+    console.log(
+      "[peekmd] Could not open browser automatically. Please open the URL manually.",
     );
   }
 }

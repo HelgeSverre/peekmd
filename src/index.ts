@@ -4,6 +4,7 @@ export {
   createParser,
   extractDescription,
   extractTopics,
+  type ParserOptions,
 } from "./markdown/parser.ts";
 export {
   processAlerts,
@@ -27,12 +28,14 @@ export {
   getContentType,
   resolveAssetPath,
 } from "./utils/paths.ts";
-export { showToast, openBrowser } from "./utils/browser.ts";
+export { openBrowser } from "./utils/browser.ts";
+export { watchFile } from "./utils/watcher.ts";
 
 export {
   createServer,
   type ServerOptions,
   type ServerState,
+  type CreateServerResult,
 } from "./server/index.ts";
 export { getHtml, type TemplateData } from "./template/html.ts";
 

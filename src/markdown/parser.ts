@@ -1,10 +1,10 @@
 import MarkdownIt from "markdown-it";
+import { type MarkdownIt as MarkdownItType } from "markdown-it";
 import footnotePlugin from "markdown-it-footnote";
 import { createHighlightPlugin } from "./plugins/highlight.ts";
 import { createAnchorsPlugin } from "./plugins/anchors.ts";
 import { createMermaidPlugin } from "./plugins/mermaid.ts";
 import { createTaskListPlugin } from "./plugins/tasks.ts";
-import { createStrikethroughPlugin } from "./plugins/strikethrough.ts";
 import { processAlerts } from "./plugins/alerts.ts";
 
 export interface ParserOptions {
@@ -13,7 +13,7 @@ export interface ParserOptions {
   typographer?: boolean;
 }
 
-export function createParser(options: ParserOptions = {}): MarkdownIt {
+export function createParser(options: ParserOptions = {}): MarkdownItType {
   const md = new MarkdownIt({
     html: options.html ?? true,
     linkify: options.linkify ?? true,
@@ -21,13 +21,11 @@ export function createParser(options: ParserOptions = {}): MarkdownIt {
     breaks: false,
   });
 
-  // Apply plugins
-  md.use(createHighlightPlugin());
-  md.use(createMermaidPlugin());
-  md.use(createTaskListPlugin());
-  md.use(createStrikethroughPlugin());
+  md.use(createHighlightPlugin);
+  md.use(createMermaidPlugin);
+  md.use(createTaskListPlugin);
   md.use(footnotePlugin);
-  md.use(createAnchorsPlugin());
+  md.use(createAnchorsPlugin);
 
   return md;
 }
@@ -36,16 +34,13 @@ export function renderMarkdown(
   content: string,
   options?: ParserOptions,
 ): string {
-  const md = createParser(options);
-  let html = md.render(content);
-  html = processAlerts(html);
-  return html;
+  const html = createParser(options).render(content);
+  return processAlerts(html);
 }
 
 export function extractDescription(content: string): string {
   const lines = content.split("\n");
   let foundHeading = false;
-  let description = "";
 
   for (const line of lines) {
     const trimmed = line.trim();
@@ -57,7 +52,6 @@ export function extractDescription(content: string): string {
     if (
       !foundHeading ||
       !trimmed ||
-      trimmed.startsWith("#") ||
       trimmed.startsWith("-") ||
       trimmed.startsWith("*") ||
       trimmed.startsWith("`") ||
@@ -73,7 +67,7 @@ export function extractDescription(content: string): string {
     }
 
     // Found a text paragraph - extract it
-    description = trimmed
+    const description = trimmed
       .replace(/!\[([^\]]*)\]\([^)]+\)/g, "") // Remove images
       .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1") // Convert links to text
       .replace(/\*\*([^*]+)\*\*/g, "$1") // Remove bold
@@ -83,13 +77,23 @@ export function extractDescription(content: string): string {
       .trim();
 
     if (description) {
-      break;
+      return description;
     }
   }
 
-  return description || "No description provided.";
+  return "No description provided.";
 }
 
-export function extractTopics(_repoName: string): string[] {
-  return ["markdown", "preview", "documentation"];
+/**
+ * Derive topic tags from the repo name (dash/underscore separated words),
+ * falling back to generic markdown-related tags when nothing usable is found.
+ */
+export function extractTopics(repoName: string): string[] {
+  const words = repoName
+    .toLowerCase()
+    .split(/[-_/\s.]+/)
+    .filter((w) => w.length >= 3);
+
+  const tags = new Set(["markdown", ...words]);
+  return [...tags].slice(0, 5);
 }

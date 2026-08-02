@@ -34,7 +34,7 @@ export async function captureScreenshot(
 ): Promise<Buffer> {
   const {
     url,
-    selector = ".markdown-body",
+    selector = '[data-testid="markdown-body"]',
     darkMode = false,
     waitForMermaid = true,
     viewport = { width: 1280, height: 800 },
@@ -54,7 +54,7 @@ export async function captureScreenshot(
     // If dark mode, click the theme toggle button
     if (darkMode) {
       const themeToggle = page.locator(
-        "[data-theme-toggle], .theme-toggle, #theme-toggle",
+        '[data-testid="theme-toggle"], [data-theme-toggle], .theme-toggle, #theme-toggle',
       );
       if (await themeToggle.isVisible({ timeout: 1000 }).catch(() => false)) {
         await themeToggle.click();

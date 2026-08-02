@@ -1,9 +1,28 @@
+const LIVE_RELOAD_SCRIPT = `
+  // Keep server alive on refresh
+  fetch('/ping');
+
+  window.addEventListener('beforeunload', () => { fetch('/close'); });
+
+  // Live reload over WebSocket
+  function connectReload() {
+    let ws;
+    try {
+      ws = new WebSocket((location.protocol === 'https:' ? 'wss://' : 'ws://') + location.host + '/ws');
+    } catch {
+      return;
+    }
+    ws.onmessage = (event) => {
+      if (event.data === 'reload') location.reload();
+    };
+    ws.onclose = () => setTimeout(connectReload, 1000);
+  }
+  connectReload();
+`;
+
 export function getScripts(): string {
   return `
-    // Keep server alive on refresh
-    fetch('/ping');
-
-    window.addEventListener('beforeunload', () => { fetch('/close'); });
+    ${LIVE_RELOAD_SCRIPT}
 
     // Dark mode
     const toggle = document.getElementById('darkToggle');
@@ -17,7 +36,7 @@ export function getScripts(): string {
     toggle.addEventListener('click', () => setDark(!document.documentElement.classList.contains('dark')));
 
     // File tree collapse state
-    const fileTree = document.querySelector('details.Box');
+    const fileTree = document.querySelector('details.Box-tree');
     if (fileTree) {
       const storedTree = localStorage.getItem('fileTreeOpen');
       if (storedTree !== null) {

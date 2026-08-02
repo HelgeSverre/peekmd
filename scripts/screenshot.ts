@@ -25,12 +25,20 @@ async function startServer() {
   const markdownDir = dirname(filePath);
 
   const state: ServerState = { server: null, isOpen: true };
-  const { server, port } = await createServer(
-    { port: 0, filename, content, repoName, dirPath, markdownDir },
+  const { server, port, stop: stopServer } = await createServer(
+    {
+      port: 0,
+      filePath,
+      filename,
+      content,
+      repoName,
+      dirPath,
+      markdownDir,
+    },
     state,
   );
 
-  return { url: `http://localhost:${port}`, stop: () => server.stop() };
+  return { url: `http://localhost:${port}`, stop: stopServer };
 }
 
 async function capture(
@@ -77,7 +85,7 @@ async function capture(
   await page.waitForTimeout(100);
 
   // Close the file tree to show a cleaner view
-  const fileTreeDetails = page.locator("details.Box").first();
+  const fileTreeDetails = page.locator('[data-testid="file-tree"]').first();
   if (await fileTreeDetails.getAttribute("open") !== null) {
     await fileTreeDetails.locator("summary").click();
     await page.waitForTimeout(100);
